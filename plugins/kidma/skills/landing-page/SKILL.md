@@ -1,12 +1,12 @@
 ---
 name: landing-page
-description: "Use when the user wants a landing page, sales page, sign-up page or a one-page site for an offer, a workshop, a service or a product, and when they want to put that page live. Triggers: \"דף נחיתה\", \"דף מכירה\", \"דף הרשמה\", \"עמוד לקמפיין\", \"תעלה את הדף לאוויר\", \"landing page\"."
+description: "Use when the user wants a landing page, sign-up page or a short one-page site for an offer, a workshop, a service or a product, and when they want to put that page live. For a long page that sells an offer with a price, use sales-page, which writes the copy first and then builds with this skill. Triggers: \"דף נחיתה\", \"דף הרשמה\", \"עמוד לקמפיין\", \"תעלה את הדף לאוויר\", \"landing page\"."
 ---
 
 # דף נחיתה
 
 **מה זה:** בונה דף נחיתה בעברית, עמודה אחת באמצע, שנראה טוב קודם כל בטלפון, ומעלה אותו לאוויר.
-**איך מדבר:** כמו שכתוב ב-`CLAUDE.md` (חוקי המשרד). בגובה העיניים, בלי שפה של פרסומת.
+**איך מדבר:** כמו שכתוב ב-`CLAUDE.md` (חוקי המשרד). בגובה העיניים, בלי שפה של פרסומת. את הטקסטים כותב לפי הסקיל copywriting, אם הוא מותקן.
 
 ## מה קורא לפני שמתחיל
 - `CLAUDE.md`
@@ -24,7 +24,7 @@ description: "Use when the user wants a landing page, sales page, sign-up page o
 2. **מציע שלד לפני שבונה:** כותרת, תת כותרת, ורשימת החלקים בדף. מחכה לאישור.
 3. **בונה קובץ אחד:** `landing/<שם-קצר>/index.html`, עם התמונות באותה תיקייה. נפתח בדפדפן בלחיצה, בלי התקנות.
 4. **פותח את הדף בדפדפן** ומבקש מהמשתמש להסתכל גם ברוחב של טלפון.
-5. **מתקן לפי הערות.** כשהערה היא כלל שיחזור (למשל "כפתור תמיד בצבע בולט"), מציע להוסיף אותה לסקיל הזה.
+5. **מתקן לפי הערות.** כשהערה היא כלל שיחזור (למשל "כפתור תמיד בצבע בולט"), מציע לשמור אותה ב-`CLAUDE.md` תחת "העדפות לסקילים" (עדכון של התוסף מחליף את קובצי הסקיל, חוקי המשרד נשארים).
 6. **מעלה לאוויר רק כשהמשתמש מבקש** (ראו "העלאה לאוויר").
 
 ## איך הדף נראה

@@ -1,12 +1,14 @@
 {
   "name": "kidma-workshop",
   "description": "Skills from the AI Dream Team workshop (צוות AI לעסק) by kidma",
-  "owner": { "name": "Alexander Kapit" },
+  "owner": {
+    "name": "Alexander Kapit"
+  },
   "plugins": [
     {
       "name": "kidma",
       "source": "./plugins/kidma",
-      "description": "דף נחיתה בעברית שעולה לאוויר, וקמפיין במטא שנבנה מושהה. מסדנת צוות AI לעסק"
+      "description": "קופירייטינג, דף נחיתה, דף מכירה, ביקורת לדף, לוח קריאייטיב, קמפיין במטא וסגירת יום. מסדנת צוות AI לעסק"
     }
   ]
 }
