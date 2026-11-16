@@ -1,0 +1,126 @@
+/* landing-design: base stylesheet for one-file Hebrew landing pages.
+   Paste it into the page's <style> (the page must stay one index.html file).
+   Pick a palette with <html lang="he" dir="rtl" data-palette="calm">.
+   All sizes are in rem, so the mobile root bump at the bottom scales everything. */
+
+/* ---------- palettes ---------- */
+:root, [data-palette="premium"] {
+  --bg-base: #FFFFFF; --bg-soft: #F5F5F5; --bg-tint: #FEF7EA; --bg-dark: #000000;
+  --ink: #000000; --ink-muted: #4D4D4D; --on-dark: #FFFFFF;
+  --accent: #BD9B5E; --accent-2: #D4B160;
+  --h1: #BD9B5E; --h1-on-dark: #D4B160;
+  --cta: #7DAC6C; --cta-hover: #6E9A5E; --cta-text: #FFFFFF;
+  --pain: #C90707; --mark: #FFF200;
+}
+[data-palette="royal"] {
+  --bg-base: #FFFFFF; --bg-soft: #FEF7ED; --bg-tint: #FFE3EC; --bg-dark: #000000;
+  --ink: #000000; --ink-muted: #4D4D4D; --on-dark: #FFFFFF;
+  --accent: #FE1B66; --accent-2: #C39C63;
+  --h1: #FE1B66; --h1-on-dark: #FFFFFF;
+  --cta: #2B478F; --cta-hover: #1F356E; --cta-text: #FFFFFF;
+  --pain: #C62828; --mark: #FFF59D;
+}
+[data-palette="calm"] {
+  --bg-base: #FFFFFF; --bg-soft: #F4F2EF; --bg-tint: #D0DCEA; --bg-dark: #003D68;
+  --ink: #000000; --ink-muted: #626E7F; --on-dark: #FFFFFF;
+  --accent: #5F6E81; --accent-2: #003D68;
+  --h1: #5F6E81; --h1-on-dark: #FFFFFF;
+  --cta: #5F6E81; --cta-hover: #4A5868; --cta-text: #FFFFFF;
+  --pain: #B45353; --mark: #FFE89A;
+}
+[data-palette="energy"] {
+  --bg-base: #FFFFFF; --bg-soft: #F6F3F3; --bg-tint: #FFF9C4; --bg-dark: #000000;
+  --ink: #000000; --ink-muted: #424242; --on-dark: #FFFFFF;
+  --accent: #10DD3D; --accent-2: #EEF92E;
+  --h1: #000000; --h1-on-dark: #EEF92E;
+  --cta: #10DD3D; --cta-hover: #0BB832; --cta-text: #000000;
+  --pain: #F41212; --mark: #EEF92E;
+}
+/* custom: copy one block above, rename it data-palette="custom", and put the brand HEX in
+   --accent / --h1 / --cta. Keep --ink black. */
+
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg-base); color: var(--ink);
+  font-family: 'Assistant', system-ui, -apple-system, sans-serif;
+  font-size: 1.25rem; line-height: 1.7; text-align: center;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; margin-inline: auto; }
+a { color: inherit; }
+h1, h2, h3 { margin: 0 0 1rem; line-height: 1.15; font-weight: 800; text-wrap: balance; }
+h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); color: var(--h1); }
+h2 { font-size: clamp(1.9rem, 4.5vw, 3rem); color: var(--h1); }
+h3 { font-size: clamp(1.4rem, 2.5vw, 1.9rem); }
+p { margin: 0 0 1.1rem; }
+.lead { font-size: 1.5rem; font-weight: 700; }
+.small { font-size: 1.125rem; color: var(--ink-muted); } /* 18px, the floor. Nothing smaller */
+.mark { background: var(--mark); padding: 0 .25em; font-weight: 700; }
+.pain { color: var(--pain); }
+
+/* ---------- layout: one centered column ---------- */
+section { padding: 4rem 1rem; }
+.wrap { max-width: 45rem; margin-inline: auto; }
+.wrap-wide { max-width: 64rem; margin-inline: auto; } /* only for a real comparison or a testimonial grid */
+.stack > * + * { margin-top: 1.25rem; }
+
+/* surfaces: alternate them down the page so the palette is felt in the first two scrolls */
+.s-base { background: var(--bg-base); }
+.s-soft { background: var(--bg-soft); }
+.s-tint { background: var(--bg-tint); }
+.s-dark { background: var(--bg-dark); color: var(--on-dark); }
+.s-dark h1, .s-dark h2 { color: var(--h1-on-dark); }
+.s-brand { background: var(--accent); color: var(--on-dark); }
+.s-brand h1, .s-brand h2 { color: var(--on-dark); }
+.strip { padding: .75rem 1rem; background: var(--bg-tint); font-weight: 700; }
+
+/* ---------- button: square-ish with an offset shadow, never a pill ---------- */
+.btn {
+  display: inline-block; padding: .9rem 2rem; margin: .5rem 0 1rem;
+  background: var(--cta); color: var(--cta-text); text-decoration: none;
+  font-size: 1.5rem; font-weight: 800; line-height: 1.2;
+  border: 2px solid var(--ink); border-radius: 6px;
+  box-shadow: -4px 4px 0 var(--ink);
+  transition: transform .1s ease, box-shadow .1s ease, background .15s ease;
+}
+.btn:hover { background: var(--cta-hover); }
+.btn:active { transform: translate(-2px, 2px); box-shadow: -2px 2px 0 var(--ink); }
+.s-dark .btn { border-color: var(--on-dark); box-shadow: -4px 4px 0 var(--on-dark); }
+
+/* ---------- blocks ---------- */
+.card { background: var(--bg-base); color: var(--ink); border: 2px solid var(--accent); border-radius: 8px; padding: 1.5rem; }
+.list { list-style: none; padding: 0; margin: 0 0 1.25rem; }
+.list li { margin: .5rem 0; }
+.list li::before { content: "✓ "; color: var(--accent); font-weight: 800; }
+.pain-list li::before { content: "✗ "; color: var(--pain); }
+.steps { list-style: none; padding: 0; margin: 0; counter-reset: s; }
+.steps li { counter-increment: s; margin: 0 0 1.5rem; }
+.steps li::before { content: counter(s); display: block; margin: 0 auto .5rem; width: 2.75rem; height: 2.75rem; line-height: 2.75rem; border-radius: 50%; background: var(--accent); color: var(--on-dark); font-weight: 800; }
+.portrait { width: 12rem; height: 12rem; border-radius: 50%; object-fit: cover; }
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
+details { background: var(--bg-base); border: 1px solid #ddd; border-radius: 8px; padding: 1rem 1.25rem; margin: 0 0 .75rem; text-align: center; }
+summary { font-weight: 800; cursor: pointer; }
+
+/* ---------- form ---------- */
+.form { max-width: 28rem; margin-inline: auto; display: grid; gap: .9rem; text-align: right; }
+.form input[type=text], .form input[type=email], .form input[type=tel] {
+  width: 100%; padding: .8rem 1rem; font: inherit; font-size: 1.25rem;
+  border: 2px solid #bbb; border-radius: 6px; background: #fff; color: #000;
+}
+.form input:focus { outline: 3px solid var(--accent); outline-offset: 1px; }
+.consent { display: flex; gap: .6rem; align-items: flex-start; font-size: 1.125rem; }
+.consent input { margin-top: .4rem; width: 1.2rem; height: 1.2rem; }
+.form .btn { width: 100%; }
+.hp { position: absolute; left: -9999px; }
+
+footer { padding: 2rem 1rem; background: var(--bg-dark); color: var(--on-dark); font-size: 1.125rem; }
+footer a { margin-inline: .5rem; }
+
+/* ---------- mobile: bigger type, always ---------- */
+@media (max-width: 767px) {
+  html { font-size: 18px; }
+  body { line-height: 1.75; }
+  section { padding: 3rem 1rem; }
+}

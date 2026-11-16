@@ -1,0 +1,7 @@
+{
+  "name": "kidma-video",
+  "description": "כתוביות לסרטונים, וסט כללי תנועה ועריכה לסרטונים ב-HyperFrames. מסדנת צוות AI לעסק",
+  "version": "1.0.0",
+  "author": { "name": "Alexander Kapit" },
+  "license": "Apache-2.0"
+}

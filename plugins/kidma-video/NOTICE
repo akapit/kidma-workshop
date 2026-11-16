@@ -1,0 +1,10 @@
+kidma-video plugin
+Copyright 2026 Alexander Kapit
+
+The skills motion-doctrine, cut-the-curve, seam-craft, captions-overlay and
+oversized-cursor are derived from HyperFrames by HeyGen
+(https://github.com/heygen-com/hyperframes), licensed under the Apache License,
+Version 2.0 (see LICENSE). They were modified by Alexander Kapit. They expect the
+HyperFrames skills to be installed: npx skills add heygen-com/hyperframes
+
+The video-subtitles skill and its scripts are original work by Alexander Kapit.
