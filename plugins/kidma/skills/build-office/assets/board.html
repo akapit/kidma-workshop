@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הלוח של המשרד</title>
+<!-- לוח המשרד. את הקובץ הזה לא עורכים: הנתונים ב-board-data.js, באותה תיקייה. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='none' stroke='%23231d18' stroke-width='3'/%3E%3Ccircle cx='22' cy='10' r='3.5' fill='%23e0763b'/%3E%3C/svg%3E">
+<style>
+:root {
+  --paper: oklch(0.974 0.007 84); --paper-2: oklch(0.952 0.009 82); --sheet: oklch(0.99 0.004 84);
+  --rule: oklch(0.85 0.011 78); --rule-2: oklch(0.91 0.008 80);
+  --ink: oklch(0.21 0.012 60); --ink-2: oklch(0.42 0.012 62); --ink-3: oklch(0.585 0.01 66);
+  --signal: oklch(0.63 0.17 44); --signal-wash: oklch(0.945 0.035 58);
+  --live: oklch(0.58 0.13 158); --live-wash: oklch(0.945 0.035 158);
+  --shadow: 0 1px 1px oklch(0.4 0.02 60 / 0.06), 0 12px 32px -12px oklch(0.35 0.03 60 / 0.22);
+  --font: "Assistant", "Rubik", "Segoe UI", "Arial Hebrew", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: oklch(0.172 0.008 65); --paper-2: oklch(0.2 0.009 65); --sheet: oklch(0.215 0.01 65);
+    --rule: oklch(0.34 0.01 65); --rule-2: oklch(0.265 0.009 65);
+    --ink: oklch(0.94 0.008 80); --ink-2: oklch(0.77 0.01 75); --ink-3: oklch(0.6 0.01 70);
+    --signal: oklch(0.73 0.15 52); --signal-wash: oklch(0.27 0.05 52); --live: oklch(0.75 0.13 158); --live-wash: oklch(0.26 0.05 158);
+    --shadow: 0 1px 1px oklch(0 0 0 / 0.3), 0 16px 40px -16px oklch(0 0 0 / 0.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: oklch(0.172 0.008 65); --paper-2: oklch(0.2 0.009 65); --sheet: oklch(0.215 0.01 65);
+  --rule: oklch(0.34 0.01 65); --rule-2: oklch(0.265 0.009 65);
+  --ink: oklch(0.94 0.008 80); --ink-2: oklch(0.77 0.01 75); --ink-3: oklch(0.6 0.01 70);
+  --signal: oklch(0.73 0.15 52); --signal-wash: oklch(0.27 0.05 52); --live: oklch(0.75 0.13 158); --live-wash: oklch(0.26 0.05 158);
+  --shadow: 0 1px 1px oklch(0 0 0 / 0.3), 0 16px 40px -16px oklch(0 0 0 / 0.7);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 400 15px/1.5 var(--font); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3, p { margin: 0; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* header */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 60px; padding: 0 clamp(16px, 3.2vw, 44px); border-bottom: 1px solid var(--rule); }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; letter-spacing: -0.01em; min-width: 0; }
+.brand svg { width: 22px; height: 22px; flex: none; }
+.brand span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tools { display: flex; align-items: center; gap: 14px; color: var(--ink-3); font-size: 13px; }
+.ibtn { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; color: var(--ink-2); }
+.ibtn:hover { background: var(--paper-2); color: var(--ink); }
+.ibtn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+main { max-width: 1240px; margin: 0 auto; padding: clamp(24px, 4vw, 48px) clamp(16px, 3.2vw, 44px) 64px; }
+
+/* hero */
+.eyebrow { color: var(--ink-3); font-size: 14px; }
+h1 { margin-top: 6px; font-size: clamp(30px, 4.6vw, 50px); line-height: 1.08; letter-spacing: -0.025em; font-weight: 800; text-wrap: balance; }
+h1 em { font-style: normal; }
+h1 em.w { color: var(--signal); }
+h1 em.b { color: var(--live); }
+.lede { margin-top: 12px; color: var(--ink-2); font-size: 17px; max-width: 62ch; }
+.lede b { color: var(--ink); font-weight: 700; }
+.stale { margin-top: 14px; color: var(--signal); font-size: 14px; }
+
+/* layout */
+.home { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: clamp(24px, 3vw, 44px); margin-top: clamp(24px, 3.4vw, 40px); align-items: start; }
+@media (max-width: 920px) { .home { grid-template-columns: minmax(0, 1fr); } }
+.plan, .side, .walls { min-width: 0; }
+
+/* the floor plan */
+.plan { margin: 0; }
+.walls { background: var(--sheet); border: 3px solid var(--ink); border-radius: 2px; position: relative; }
+.room { position: relative; padding: 34px clamp(14px, 2vw, 26px) 24px; }
+.room + .room { border-top: 1.5px solid var(--ink); }
+.room-label { position: absolute; top: 10px; right: 14px; font-size: 12px; color: var(--ink-3); letter-spacing: 0.02em; display: flex; gap: 8px; }
+.room-label b { font-weight: 600; color: var(--ink-2); }
+.room-label .num { color: var(--ink-3); }
+.door { position: absolute; top: -1.5px; left: 48px; width: 46px; height: 46px; transform: translateY(-100%) scaleY(-1); }
+.door path { fill: none; stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 3; }
+.door line { stroke: var(--ink); stroke-width: 2; }
+.door rect { fill: var(--sheet); }
+.desks { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 20px 18px; }
+.room.lead .desks { grid-template-columns: minmax(0, 280px); justify-content: center; }
+.room.lead .desk { text-align: center; }
+.room.lead .desk .who { justify-content: center; }
+
+.desk { display: block; width: 100%; text-align: right; padding: 10px; border-radius: 6px; transition: background-color .2s; }
+.desk:hover { background: var(--paper-2); }
+.desk svg { display: block; width: 100%; max-width: 168px; height: auto; margin: 0 auto 8px; overflow: visible; }
+.desk .top-v { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.4; }
+.desk .chair { fill: var(--paper-2); stroke: var(--ink-2); stroke-width: 1.2; }
+.desk .screen { stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; }
+.desk .paper { fill: none; stroke: var(--rule); stroke-width: 1; }
+.desk .lamp { stroke-width: 1.4; }
+.desk[data-s="waiting"] .lamp { fill: var(--signal); stroke: var(--signal); }
+.desk[data-s="busy"] .lamp { fill: var(--live); stroke: var(--live); }
+.desk[data-s="free"] .lamp { fill: var(--sheet); stroke: var(--ink-3); }
+.desk[data-s="waiting"] .glow { fill: var(--signal-wash); }
+.desk[data-s="busy"] .glow { fill: var(--live-wash); }
+.desk[data-s="free"] .glow { fill: none; }
+.desk[data-s="free"] .chair { fill: none; stroke-dasharray: 3 2.5; }
+.who { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.who b { font-size: 17px; font-weight: 700; }
+.who span { color: var(--ink-3); font-size: 13.5px; }
+.now { margin-top: 3px; color: var(--ink-2); font-size: 14px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.desk[data-s="waiting"] .now { color: var(--signal); }
+.desk[data-s="free"] .now { color: var(--ink-3); }
+
+.key { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 14px; color: var(--ink-3); font-size: 13px; }
+.key span { display: inline-flex; align-items: center; gap: 7px; }
+.key i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.key .w { background: var(--signal); }
+.key .b { background: var(--live); }
+.key .f { border: 1.4px solid var(--ink-3); }
+
+/* side */
+.side { display: grid; gap: 30px; }
+.block > header { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--ink); }
+.block h2 { font-size: 16px; font-weight: 700; }
+.block .n { color: var(--ink-3); font-size: 14px; }
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { padding: 11px 0; border-bottom: 1px solid var(--rule-2); }
+.list .meta { color: var(--ink-3); font-size: 13px; }
+.list .meta b { color: var(--ink-2); font-weight: 600; }
+.list .txt { margin-top: 2px; }
+.waiting li { position: relative; padding-right: 16px; }
+.waiting li::before { content: ""; position: absolute; right: 0; top: 18px; width: 7px; height: 7px; border-radius: 50%; background: var(--signal); }
+.empty { color: var(--ink-3); padding: 12px 0; font-size: 14px; }
+.next li { display: flex; gap: 10px; }
+.next li::before { content: ""; flex: none; width: 13px; height: 13px; margin-top: 4px; border: 1.4px solid var(--ink-3); border-radius: 3px; }
+
+/* detail */
+dialog { width: min(440px, calc(100vw - 32px)); border: 1px solid var(--rule); border-radius: 10px; background: var(--sheet); color: var(--ink); padding: 26px 24px 22px; box-shadow: var(--shadow); }
+dialog::backdrop { background: oklch(0.2 0.01 60 / 0.35); }
+dialog h3 { font-size: 24px; font-weight: 800; letter-spacing: -0.015em; }
+dialog .role { color: var(--ink-3); margin-top: 2px; }
+dialog .state { margin-top: 14px; font-weight: 600; }
+dialog .state.w { color: var(--signal); }
+dialog .state.b { color: var(--live); }
+dialog .state.f { color: var(--ink-3); }
+dialog h4 { margin: 18px 0 4px; font-size: 13px; color: var(--ink-3); font-weight: 600; }
+dialog ul { margin: 0; padding: 0 18px 0 0; }
+dialog li { margin: 3px 0; }
+dialog .close { position: absolute; top: 12px; left: 12px; }
+
+/* nothing yet */
+.blank { max-width: 560px; margin: 12vh auto 0; text-align: center; }
+.blank h1 { font-size: clamp(28px, 4vw, 40px); }
+.blank p { margin-top: 14px; color: var(--ink-2); font-size: 17px; }
+.blank code { font-family: var(--font); font-weight: 700; color: var(--ink); background: var(--paper-2); padding: 2px 8px; border-radius: 5px; }
+
+@media (max-width: 600px) { .door { display: none; } }
+@media (max-width: 460px) {
+  .desks { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 8px; }
+  .room { padding-inline: 10px; }
+  .desk { padding: 6px; }
+  .who b { font-size: 16px; }
+  .now { font-size: 13px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .desk { animation: rise .5s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 22 22" aria-hidden="true"><rect x="1.5" y="1.5" width="19" height="19" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1.5 9h8v11.5" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="15.5" cy="6.5" r="2.4" fill="var(--signal)"/></svg>
+    <span id="brand">המשרד</span>
+  </div>
+  <div class="tools">
+    <span id="stamp" class="num"></span>
+    <button class="ibtn" id="theme" aria-label="כהה או בהיר" title="כהה או בהיר">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.2 12.6A6.8 6.8 0 0 1 7.4 3.8a6.8 6.8 0 1 0 8.8 8.8Z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<dialog id="detail" aria-labelledby="d-name">
+  <button class="ibtn close" id="d-close" aria-label="סגירה"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+  <div id="d-body"></div>
+</dialog>
+
+<script src="board-data.js"></script>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  try { var t = localStorage.getItem("board-theme"); if (t) root.setAttribute("data-theme", t); } catch (e) {}
+  document.getElementById("theme").addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+    var next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("board-theme", next); } catch (e) {}
+  });
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = String(text);
+    return n;
+  }
+  function str(v) { return typeof v === "string" ? v.trim() : (v == null ? "" : String(v)); }
+  function arr(v) { return Array.isArray(v) ? v : []; }
+  function parseDate(s) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{1,2}):(\d{2}))?/.exec(str(s));
+    return m ? new Date(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0)) : null;
+  }
+  function daysAgo(d) {
+    if (!d) return null;
+    var a = new Date(); a.setHours(0, 0, 0, 0);
+    var b = new Date(d); b.setHours(0, 0, 0, 0);
+    return Math.round((a - b) / 864e5);
+  }
+  function when(s) {
+    var d = parseDate(s), n = daysAgo(d);
+    if (n == null) return str(s);
+    var time = /\d:\d{2}/.test(str(s)) ? ", " + d.toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" }) : "";
+    if (n <= 0) return "היום" + time;
+    if (n === 1) return "אתמול" + time;
+    if (n < 7) return "לפני " + n + " ימים";
+    return d.toLocaleDateString("he-IL", { day: "numeric", month: "long" });
+  }
+  function since(s) {
+    var n = daysAgo(parseDate(s));
+    if (n == null) return "";
+    if (n <= 0) return "מהיום";
+    if (n === 1) return "מאתמול";
+    return "כבר " + n + " ימים";
+  }
+  function joinNames(list) {
+    if (list.length === 1) return list[0];
+    return list.slice(0, -1).join(", ") + " ו" + list[list.length - 1];
+  }
+
+  var data = window.OFFICE_BOARD;
+  var main = document.getElementById("main");
+
+  if (!data || typeof data !== "object" || !arr(data.team).length) {
+    var b = el("section", "blank");
+    b.appendChild(el("h1", null, "הלוח עוד ריק"));
+    var p = el("p");
+    p.appendChild(document.createTextNode("כתבו ל-Claude, בשיחה בתיקייה של העסק: "));
+    p.appendChild(el("code", null, "תעדכן את הלוח"));
+    p.appendChild(document.createTextNode(". אחר כך רעננו את הדף."));
+    b.appendChild(p);
+    main.appendChild(b);
+    return;
+  }
+
+  var team = arr(data.team).map(function (w) {
+    var s = str(w && w.status);
+    return {
+      name: str(w && w.name) || "עובד",
+      role: str(w && w.role),
+      manager: !!(w && w.manager),
+      status: s === "waiting" || s === "busy" ? s : "free",
+      now: str(w && w.now),
+      open: arr(w && w.open).map(str).filter(Boolean).slice(0, 3),
+      last: w && w.last && typeof w.last === "object" ? { date: str(w.last.date), text: str(w.last.text) } : null,
+      week: Math.max(0, parseInt(w && w.week, 10) || 0)
+    };
+  });
+  var waiting = arr(data.waiting).filter(function (x) { return x && str(x.what); });
+  var recent = arr(data.recent).filter(function (x) { return x && str(x.text); }).slice(0, 8);
+  var next = arr(data.next).map(str).filter(Boolean).slice(0, 4);
+  var business = str(data.business), owner = str(data.owner);
+  var updated = parseDate(data.updated);
+
+  if (business) { document.getElementById("brand").textContent = business; document.title = "הלוח של " + business; }
+  if (updated) document.getElementById("stamp").textContent = "עודכן " + when(data.updated);
+
+  /* hero */
+  var hero = el("section", "hero");
+  var today = new Date().toLocaleDateString("he-IL", { weekday: "long", day: "numeric", month: "long" });
+  hero.appendChild(el("p", "eyebrow", (owner ? "בוקר טוב, " + owner + ". " : "") + today));
+  var h1 = el("h1");
+  var busy = team.filter(function (w) { return w.status === "busy"; }).map(function (w) { return w.name; });
+  if (waiting.length) {
+    h1.appendChild(el("em", "w", waiting.length === 1 ? "דבר אחד מחכה" : waiting.length + " דברים מחכים"));
+    h1.appendChild(document.createTextNode(" לאישור שלך"));
+  } else if (busy.length) {
+    h1.appendChild(el("em", "b", busy.length > 3 ? busy.length + " עובדים" : joinNames(busy)));
+    h1.appendChild(document.createTextNode(busy.length === 1 ? " באמצע משימה" : " באמצע משימות"));
+  } else {
+    h1.appendChild(document.createTextNode("אין משימות פתוחות. מה עושים היום?"));
+  }
+  hero.appendChild(h1);
+  var weekDone = team.reduce(function (a, w) { return a + w.week; }, 0);
+  var lede = el("p", "lede");
+  function part(n, text) { lede.appendChild(el("b", "num", n)); lede.appendChild(document.createTextNode(" " + text)); }
+  part(team.length, "בצוות, ");
+  if (waiting.length) part(waiting.length, waiting.length === 1 ? "דבר מחכה לך, ו-" : "דברים מחכים לך, ו-");
+  else lede.appendChild(document.createTextNode("שום דבר לא מחכה לך, ו-"));
+  lede.appendChild(el("b", "num", weekDone));
+  lede.appendChild(document.createTextNode(weekDone === 1 ? " משימה נסגרה השבוע." : " משימות נסגרו השבוע."));
+  hero.appendChild(lede);
+  var age = daysAgo(updated);
+  if (age != null && age >= 2) hero.appendChild(el("p", "stale", "הלוח עודכן לפני " + age + " ימים. כדי לרענן, כתבו ל-Claude: תעדכן את הלוח."));
+  main.appendChild(hero);
+
+  /* plan */
+  var home = el("div", "home");
+  var fig = el("figure", "plan");
+  fig.setAttribute("aria-label", "תוכנית המשרד: שולחן לכל עובד");
+  var walls = el("div", "walls");
+  var lead = team.filter(function (w) { return w.manager; });
+  var crew = team.filter(function (w) { return !w.manager; });
+  var idx = 0;
+
+  function deskSvg() {
+    var ns = "http://www.w3.org/2000/svg";
+    var s = document.createElementNS(ns, "svg");
+    s.setAttribute("viewBox", "0 0 168 92");
+    s.setAttribute("aria-hidden", "true");
+    function add(tag, attrs) {
+      var n = document.createElementNS(ns, tag);
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+      s.appendChild(n); return n;
+    }
+    add("ellipse", { "class": "glow", cx: 84, cy: 40, rx: 82, ry: 38 });
+    add("path", { "class": "chair", d: "M64 70 h40 a6 6 0 0 1 6 6 v6 a6 6 0 0 1 -6 6 h-40 a6 6 0 0 1 -6 -6 v-6 a6 6 0 0 1 6 -6 Z" });
+    add("rect", { "class": "top-v", x: 22, y: 14, width: 124, height: 50, rx: 2 });
+    add("line", { "class": "screen", x1: 62, y1: 26, x2: 106, y2: 26 });
+    add("rect", { "class": "paper", x: 72, y: 38, width: 24, height: 17, rx: 1 });
+    add("rect", { "class": "paper", x: 104, y: 42, width: 18, height: 13, rx: 1 });
+    add("circle", { "class": "lamp", cx: 36, cy: 28, r: 5.5 });
+    return s;
+  }
+  function statusText(w) {
+    if (w.status === "waiting") return w.now ? "מחכה לך: " + w.now : "מחכה לאישור שלך";
+    if (w.status === "busy") return w.now || "באמצע משימה";
+    return "אין משימה פתוחה";
+  }
+  function desk(w) {
+    var b = el("button", "desk");
+    b.type = "button";
+    b.setAttribute("data-s", w.status);
+    b.style.setProperty("--i", idx++);
+    b.appendChild(deskSvg());
+    var who = el("div", "who");
+    who.appendChild(el("b", null, w.name));
+    if (w.role) who.appendChild(el("span", null, w.role));
+    b.appendChild(who);
+    b.appendChild(el("p", "now", statusText(w)));
+    b.setAttribute("aria-label", w.name + (w.role ? ", " + w.role : "") + ". " + statusText(w));
+    b.addEventListener("click", function () { openDetail(w); });
+    return b;
+  }
+  function room(cls, n, label, people, door) {
+    var r = el("section", "room" + (cls ? " " + cls : ""));
+    var l = el("p", "room-label");
+    l.appendChild(el("span", "num", String(n).padStart(2, "0")));
+    l.appendChild(el("b", null, label));
+    r.appendChild(l);
+    if (door) {
+      r.insertAdjacentHTML("beforeend", '<svg class="door" viewBox="0 0 46 46" aria-hidden="true"><rect x="0" y="-2" width="46" height="5"/><path d="M0 0 A46 46 0 0 1 46 46"/><line x1="0" y1="0" x2="0" y2="46"/></svg>');
+    }
+    var g = el("div", "desks");
+    people.forEach(function (w) { g.appendChild(desk(w)); });
+    r.appendChild(g);
+    return r;
+  }
+  var roomNo = 1;
+  if (lead.length) walls.appendChild(room("lead", roomNo++, lead.length === 1 ? "החדר של " + lead[0].name : "ההנהלה", lead, false));
+  if (crew.length) walls.appendChild(room("", roomNo++, "חדר הצוות", crew, !!lead.length));
+  fig.appendChild(walls);
+  var key = el("figcaption", "key");
+  [["w", "מחכה לאישור שלך"], ["b", "באמצע משימה"], ["f", "בלי משימה פתוחה"]].forEach(function (k) {
+    var s = el("span"); s.appendChild(el("i", k[0])); s.appendChild(document.createTextNode(k[1])); key.appendChild(s);
+  });
+  key.appendChild(el("span", null, "לחיצה על שולחן מראה את כל מה שפתוח"));
+  fig.appendChild(key);
+  home.appendChild(fig);
+
+  /* side */
+  var side = el("aside", "side");
+  function block(title, count, items, cls, emptyText, render) {
+    var s = el("section", "block");
+    var h = el("header");
+    h.appendChild(el("h2", null, title));
+    if (count != null) h.appendChild(el("span", "n num", count));
+    s.appendChild(h);
+    if (!items.length) { s.appendChild(el("p", "empty", emptyText)); return s; }
+    var ol = el("ol", "list " + cls);
+    items.forEach(function (it) { ol.appendChild(render(it)); });
+    s.appendChild(ol);
+    return s;
+  }
+  side.appendChild(block("מחכה לך", waiting.length, waiting, "waiting", "שום דבר לא מחכה לאישור שלך.", function (x) {
+    var li = el("li");
+    var m = el("p", "meta");
+    m.appendChild(el("b", null, str(x.who)));
+    var sn = since(x.since);
+    if (sn) m.appendChild(document.createTextNode(", " + sn));
+    li.appendChild(m);
+    li.appendChild(el("p", "txt", str(x.what)));
+    return li;
+  }));
+  side.appendChild(block("מה קרה לאחרונה", null, recent, "feed", "עוד לא נסגרה אף משימה.", function (x) {
+    var li = el("li");
+    var m = el("p", "meta");
+    m.appendChild(el("b", null, str(x.who)));
+    m.appendChild(document.createTextNode(", " + when(x.when)));
+    li.appendChild(m);
+    li.appendChild(el("p", "txt", str(x.text)));
+    return li;
+  }));
+  if (next.length) side.appendChild(block("הבא בתוכנית", null, next, "next", "", function (x) { return el("li", null, x); }));
+  home.appendChild(side);
+  main.appendChild(home);
+
+  /* detail */
+  var dlg = document.getElementById("detail"), body = document.getElementById("d-body");
+  function openDetail(w) {
+    body.textContent = "";
+    body.appendChild(el("h3", null, w.name)).id = "d-name";
+    if (w.role) body.appendChild(el("p", "role", w.role));
+    var cls = { waiting: "w", busy: "b", free: "f" }[w.status];
+    body.appendChild(el("p", "state " + cls, { waiting: "מחכה לאישור שלך", busy: "באמצע משימה", free: "בלי משימה פתוחה" }[w.status]));
+    var mine = waiting.filter(function (x) { return str(x.who) === w.name; });
+    if (mine.length) {
+      body.appendChild(el("h4", null, "מחכה לך"));
+      var u1 = el("ul"); mine.forEach(function (x) { u1.appendChild(el("li", null, str(x.what))); }); body.appendChild(u1);
+    }
+    var open = w.open.length ? w.open : (w.now ? [w.now] : []);
+    if (open.length) {
+      body.appendChild(el("h4", null, "פתוח"));
+      var u2 = el("ul"); open.forEach(function (x) { u2.appendChild(el("li", null, x)); }); body.appendChild(u2);
+    }
+    if (w.last && w.last.text) {
+      body.appendChild(el("h4", null, "הפעולה האחרונה"));
+      body.appendChild(el("p", null, w.last.text + (w.last.date ? " (" + when(w.last.date) + ")" : "")));
+    }
+    body.appendChild(el("h4", null, "השבוע"));
+    body.appendChild(el("p", null, w.week === 1 ? "משימה אחת נסגרה" : w.week + " משימות נסגרו"));
+    if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+  }
+  document.getElementById("d-close").addEventListener("click", function () { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg && dlg.close) dlg.close(); });
+})();
+</script>
+</body>
+</html>

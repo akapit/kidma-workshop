@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>בונים את המשרד</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f6f1e7;
+    --card: #fffdf8;
+    --ink: #1f1a14;
+    --muted: #6b6257;
+    --line: #e2d9c8;
+    --orange: #d9662b;
+    --orange-soft: #fbe7da;
+    --focus: #b84f18;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Assistant", "Rubik", "Segoe UI", "Arial Hebrew", Arial, sans-serif;
+    font-size: 19px;
+    line-height: 1.6;
+  }
+  main { max-width: 680px; margin: 0 auto; padding: 40px 16px 120px; }
+  header { text-align: center; margin-bottom: 36px; }
+  .kicker { color: var(--orange); font-weight: 700; font-size: 16px; letter-spacing: .02em; margin: 0 0 6px; }
+  h1 { font-size: clamp(32px, 7vw, 44px); line-height: 1.15; margin: 0 0 14px; font-weight: 800; }
+  .lead { color: var(--muted); margin: 0 auto; max-width: 34em; }
+  .group-title { font-size: 15px; font-weight: 700; color: var(--muted); margin: 40px 0 12px; }
+  section.q {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px 20px 20px;
+    margin: 0 0 16px;
+  }
+  section.q.missing { border-color: var(--orange); box-shadow: 0 0 0 3px var(--orange-soft); }
+  .q h2 { font-size: 21px; line-height: 1.35; margin: 0 0 4px; font-weight: 700; }
+  .q h2 .num { color: var(--orange); margin-left: 6px; }
+  .hint { color: var(--muted); font-size: 16px; margin: 0 0 14px; }
+  .opt-tag { font-weight: 600; color: var(--muted); font-size: 15px; }
+  textarea, input[type=text] {
+    width: 100%;
+    font: inherit;
+    font-size: 18px;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  textarea { min-height: 110px; resize: vertical; }
+  textarea.tall { min-height: 160px; }
+  textarea:focus, input[type=text]:focus { outline: 2px solid var(--focus); outline-offset: 1px; border-color: transparent; }
+  fieldset { border: 0; margin: 0; padding: 0; }
+  legend { font-weight: 600; font-size: 17px; margin: 6px 0 6px; padding: 0; }
+  label.row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 4px;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+  }
+  label.row:first-of-type { border-top: 0; }
+  label.row input { width: 20px; height: 20px; margin: 4px 0 0; accent-color: var(--orange); flex: none; }
+  .other { margin-top: 8px; }
+  .sub { margin-top: 16px; }
+  .actions { text-align: center; margin-top: 36px; }
+  button.primary {
+    font: inherit; font-weight: 800; font-size: 20px;
+    background: var(--orange); color: #fff;
+    border: 2px solid var(--ink); border-radius: 6px;
+    padding: 14px 28px;
+    box-shadow: 5px 5px 0 var(--ink);
+    cursor: pointer;
+  }
+  button.primary:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+  button.primary:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+  #status { min-height: 1.6em; margin: 18px 0 0; font-weight: 600; }
+  #status.warn { color: var(--focus); }
+  #out-wrap { display: none; margin-top: 18px; text-align: right; }
+  #out-wrap p { color: var(--muted); font-size: 16px; margin: 0 0 8px; }
+  #out { min-height: 260px; font-size: 16px; background: #fff; }
+  .steps { color: var(--muted); font-size: 16px; margin: 14px auto 0; max-width: 34em; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">צוות AI לעסק</p>
+    <h1>בונים את המשרד</h1>
+    <p class="lead">כמה שאלות על איך העסק שלכם עובד. מהתשובות Claude יציע צוות שמתאים לכם, ורק אחרי שתאשרו הוא יבנה אותו.</p>
+    <p class="steps">עונים במילים שלכם, לא צריך לנסח יפה. בסוף לוחצים <b>העתקת התשובות</b> ומדביקים בשיחה עם Claude. מה שכתבתם נשמר בדפדפן הזה גם אם סוגרים.</p>
+  </header>
+
+  <p class="group-title">העסק</p>
+
+  <section class="q" data-q="1">
+    <h2><span class="num">1.</span>איך קוראים לכם ולעסק, ומה העסק עושה ולמי?</h2>
+    <p class="hint">משפט אחד, כמו שהייתם מספרים לחבר. <span class="opt-tag">כתבתם כבר חוקי משרד? אפשר לדלג</span></p>
+    <textarea id="q1" rows="2"></textarea>
+  </section>
+
+  <section class="q" data-q="2">
+    <h2><span class="num">2.</span>מי עובד בעסק חוץ מכם?</h2>
+    <fieldset>
+      <label class="row"><input type="radio" name="q2" value="רק אני"> רק אני</label>
+      <label class="row"><input type="radio" name="q2" value="אני ועוד עוזר/ת"> אני ועוד עוזר/ת</label>
+      <label class="row"><input type="radio" name="q2" value="צוות קטן (3 ומעלה)"> צוות קטן (3 ומעלה)</label>
+      <label class="row"><input type="radio" name="q2" value="יש לי שותף/ה"> יש לי שותף/ה</label>
+    </fieldset>
+  </section>
+
+  <section class="q" data-q="3" data-required>
+    <h2><span class="num">3.</span>ספרו על יום עבודה רגיל אצלכם</h2>
+    <p class="hint">מה אתם עושים מהבוקר עד הערב? זו אחת משתי השאלות הכי חשובות.</p>
+    <textarea id="q3" class="tall"></textarea>
+  </section>
+
+  <p class="group-title">מה אוכל לכם את הזמן</p>
+
+  <section class="q" data-q="4">
+    <h2><span class="num">4.</span>מה הכי אוכל לכם זמן, או מה אתם דוחים?</h2>
+    <p class="hint">אפשר לסמן כמה.</p>
+    <fieldset>
+      <legend>מול הלקוחות</legend>
+      <label class="row"><input type="checkbox" name="q4" value="לענות ללקוחות"> לענות ללקוחות (וואטסאפ, מייל, טלפון)</label>
+      <label class="row"><input type="checkbox" name="q4" value="פולואפ לפניות"> לחזור לפניות ולעשות פולואפ</label>
+      <label class="row"><input type="checkbox" name="q4" value="הצעות מחיר"> להכין הצעות מחיר</label>
+      <label class="row"><input type="checkbox" name="q4" value="גבייה ותזכורות תשלום"> לגבות כסף ולהזכיר תשלומים</label>
+    </fieldset>
+    <fieldset class="sub">
+      <legend>מאחורי הקלעים</legend>
+      <label class="row"><input type="checkbox" name="q4" value="פוסטים, מיילים ותוכן"> לכתוב פוסטים, מיילים ותוכן</label>
+      <label class="row"><input type="checkbox" name="q4" value="יומן, תזכורות ומשימות"> יומן, תזכורות ומשימות שמתפזרות</label>
+      <label class="row"><input type="checkbox" name="q4" value="מחקר: מתחרים, ספקים, מידע"> לבדוק מתחרים, ספקים או מידע</label>
+    </fieldset>
+    <div class="other">
+      <input type="text" id="q4other" placeholder="משהו אחר שחוזר אצלכם? כתבו כאן">
+    </div>
+  </section>
+
+  <section class="q" data-q="5" data-required>
+    <h2><span class="num">5.</span>בחרו דבר אחד מהשאלה הקודמת. איך אתם עושים אותו היום, שלב אחרי שלב?</h2>
+    <p class="hint">מה פותחים, מה בודקים, מה שולחים בסוף. הכי טוב: דוגמה אמיתית מהשבוע האחרון. מזה ייבנה העובד הראשון.</p>
+    <textarea id="q5" class="tall"></textarea>
+  </section>
+
+  <p class="group-title">איך עובדים אצלכם</p>
+
+  <section class="q" data-q="6">
+    <h2><span class="num">6.</span>איפה רוב העבודה קורית?</h2>
+    <p class="hint">אפשר לסמן כמה.</p>
+    <fieldset>
+      <label class="row"><input type="checkbox" name="q6" value="וואטסאפ"> וואטסאפ</label>
+      <label class="row"><input type="checkbox" name="q6" value="מייל ויומן"> מייל ויומן (Gmail, Google Calendar, Outlook)</label>
+      <label class="row"><input type="checkbox" name="q6" value="גיליון או מסמכים"> גיליון או מסמכים (אקסל, Google Sheets, Drive)</label>
+      <label class="row"><input type="checkbox" name="q6" value="רשתות חברתיות"> רשתות חברתיות</label>
+    </fieldset>
+    <div class="other"><input type="text" id="q6other" placeholder="עוד מקום? (מערכת חשבוניות, CRM...)"></div>
+  </section>
+
+  <section class="q" data-q="7">
+    <h2><span class="num">7.</span>שום דבר לא יוצא בלי שאישרתם. מעבר לזה, על מה אסור לעובדים להחליט לבד, אפילו בטיוטה?</h2>
+    <fieldset>
+      <label class="row"><input type="checkbox" name="q7" value="מחירים והנחות"> מחירים והנחות</label>
+      <label class="row"><input type="checkbox" name="q7" value="הבטחות ללקוח (תוצאות, זמנים)"> הבטחות ללקוח (תוצאות, זמנים)</label>
+      <label class="row"><input type="checkbox" name="q7" value="ביטולים והחזרים"> ביטולים והחזרים</label>
+      <label class="row"><input type="checkbox" name="q7" value="תשובה ללקוח כועס"> תשובה ללקוח כועס</label>
+    </fieldset>
+    <div class="other"><input type="text" id="q7other" placeholder="עוד משהו?"></div>
+  </section>
+
+  <section class="q" data-q="8">
+    <h2><span class="num">8.</span>המנהל: איך תקראו לו, ואיך הוא מדבר איתכם?</h2>
+    <p class="hint">המנהל הוא מי שאתם מדברים איתו בתחילת כל שיחה. הוא מחלק את העבודה לצוות.</p>
+    <input type="text" id="q8name" placeholder="שם, למשל: אבי, מיכל, יואב">
+    <fieldset class="sub">
+      <legend>איך הוא מדבר</legend>
+      <label class="row"><input type="radio" name="q8tone" value="קצר וענייני"> קצר וענייני</label>
+      <label class="row"><input type="radio" name="q8tone" value="חם ומעודד"> חם ומעודד</label>
+      <label class="row"><input type="radio" name="q8tone" value="ישיר, ומאתגר אותי כשאני טועה"> ישיר, ומאתגר אותי כשאני טועה</label>
+      <label class="row"><input type="radio" name="q8tone" value="כמו שותף: שואל, ואז ממליץ"> כמו שותף: שואל, ואז ממליץ</label>
+    </fieldset>
+  </section>
+
+  <p class="group-title">רשות, אבל עוזר</p>
+
+  <section class="q" data-q="9">
+    <h2><span class="num">9.</span>יש משהו שאתם עושים כל יום, כל שבוע או כל סוף חודש, בדיוק אותו דבר?</h2>
+    <p class="hint">סיכום שבועי, דוח ללקוח, תזכורות. <span class="opt-tag">רשות</span></p>
+    <textarea id="q9" rows="2"></textarea>
+  </section>
+
+  <section class="q" data-q="10">
+    <h2><span class="num">10.</span>הדביקו הודעה אמיתית ששלחתם ללקוח</h2>
+    <p class="hint">ממנה הצוות לומד איך אתם נשמעים. בלי שם או טלפון של הלקוח. <span class="opt-tag">רשות</span></p>
+    <textarea id="q10"></textarea>
+  </section>
+
+  <section class="q" data-q="11">
+    <h2><span class="num">11.</span>מה הדבר הראשון שתרצו שהצוות יעשה מחר בבוקר?</h2>
+    <p class="hint">עם המשימה הזאת נבדוק שהמשרד עובד. <span class="opt-tag">רשות, מומלץ</span></p>
+    <textarea id="q11" rows="2"></textarea>
+  </section>
+
+  <div class="actions">
+    <button type="button" class="primary" id="copy">העתקת התשובות</button>
+    <p id="status" role="status" aria-live="polite"></p>
+    <div id="out-wrap">
+      <p>אם ההעתקה לא עבדה: מסמנים את כל הטקסט כאן (Ctrl+A או Cmd+A), מעתיקים, ומדביקים בשיחה עם Claude.</p>
+      <textarea id="out" readonly></textarea>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  var KEY = "kidma-build-office-v1";
+  var form = document.querySelector("main");
+
+  function store() {
+    try { return window.localStorage; } catch (e) { return null; }
+  }
+
+  function snapshot() {
+    var data = {};
+    form.querySelectorAll("textarea:not(#out), input[type=text]").forEach(function (el) { data[el.id] = el.value; });
+    form.querySelectorAll("input[type=checkbox], input[type=radio]").forEach(function (el) {
+      data[el.name + "::" + el.value] = el.checked;
+    });
+    return data;
+  }
+
+  function save() {
+    var s = store();
+    if (!s) return;
+    try { s.setItem(KEY, JSON.stringify(snapshot())); } catch (e) {}
+  }
+
+  function restore() {
+    var s = store();
+    if (!s) return;
+    var raw = null;
+    try { raw = s.getItem(KEY); } catch (e) { return; }
+    if (!raw) return;
+    var data;
+    try { data = JSON.parse(raw); } catch (e) { return; }
+    form.querySelectorAll("textarea:not(#out), input[type=text]").forEach(function (el) {
+      if (typeof data[el.id] === "string") el.value = data[el.id];
+    });
+    form.querySelectorAll("input[type=checkbox], input[type=radio]").forEach(function (el) {
+      if (data[el.name + "::" + el.value]) el.checked = true;
+    });
+  }
+
+  function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ""; }
+  function picked(name) {
+    return Array.prototype.map.call(form.querySelectorAll("input[name='" + name + "']:checked"), function (el) { return el.value; });
+  }
+  function join(list, extra) {
+    var all = list.slice();
+    if (extra) all.push(extra);
+    return all.join("; ");
+  }
+  function line(n, label, answer) {
+    return n + ". " + label + ": " + (answer ? answer : "(לא ענו)");
+  }
+
+  function build() {
+    var lines = [
+      "תשתמש בסקיל build-office. אלה התשובות שלי מהטופס:",
+      "",
+      "תשובות לבניית המשרד",
+      line(1, "השם שלי, העסק ולמי", val("q1")),
+      line(2, "מי עובד בעסק", picked("q2")[0] || ""),
+      line(3, "יום עבודה רגיל", val("q3")),
+      line(4, "מה אוכל את הזמן", join(picked("q4"), val("q4other"))),
+      line(5, "תהליך אחד, שלב אחרי שלב", val("q5")),
+      line(6, "איפה העבודה קורית", join(picked("q6"), val("q6other"))),
+      line(7, "על מה אסור להחליט לבד", join(picked("q7"), val("q7other"))),
+      line(8, "המנהל", (val("q8name") || "(בלי שם)") + ", מדבר: " + (picked("q8tone")[0] || "(לא נבחר)")),
+      line(9, "משהו שחוזר בזמן קבוע", val("q9")),
+      line(10, "דוגמה להודעה ששלחתי", val("q10")),
+      line(11, "המשימה הראשונה", val("q11"))
+    ];
+    return lines.join("\n");
+  }
+
+  var warned = false;
+  function missingRequired() {
+    var missing = [];
+    form.querySelectorAll("section.q[data-required]").forEach(function (sec) {
+      var t = sec.querySelector("textarea");
+      var empty = !t || !t.value.trim();
+      sec.classList.toggle("missing", empty);
+      if (empty) missing.push(sec);
+    });
+    return missing;
+  }
+
+  function fallbackCopy(text) {
+    var out = document.getElementById("out");
+    out.value = text;
+    out.focus();
+    out.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    return ok;
+  }
+
+  function done(ok) {
+    var status = document.getElementById("status");
+    status.className = "";
+    status.textContent = ok
+      ? "הועתק. עכשיו חוזרים לשיחה עם Claude ומדביקים (Ctrl+V או Cmd+V)."
+      : "לא הצלחתי להעתיק לבד. הטקסט למטה, מעתיקים אותו משם.";
+    document.getElementById("out-wrap").style.display = "block";
+  }
+
+  document.getElementById("copy").addEventListener("click", function () {
+    var status = document.getElementById("status");
+    var missing = missingRequired();
+    if (missing.length && !warned) {
+      warned = true;
+      status.className = "warn";
+      status.textContent = "שאלות 3 ו-5 הכי חשובות לבניית הצוות. אפשר להשלים, או ללחוץ שוב ולהעתיק בכל זאת.";
+      missing[0].scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    var text = build();
+    document.getElementById("out").value = text;
+    if (navigator.clipboard && window.isSecureContext !== false) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallbackCopy(text)); });
+    } else {
+      done(fallbackCopy(text));
+    }
+  });
+
+  form.addEventListener("input", save);
+  form.addEventListener("change", save);
+  restore();
+})();
+</script>
+</body>
+</html>
